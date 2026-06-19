@@ -83,3 +83,65 @@ Explanation:
 =================================================
 
 """
+# write your code here
+
+class BankAccount:
+    def __init__(self, name, account_number, opening_balance=0):
+        self.name = name
+        self.account_number = account_number
+
+        if opening_balance < 0:
+            print("Opening balance cannot be negative. Setting balance to 0.")
+            self.balance = 0
+        else:
+            self.balance = opening_balance
+
+    def deposit(self, amount):
+        if amount <= 0:
+            print(f"Deposit amount must be > 0 (got {amount})")
+        else:
+            self.balance += amount
+            print(f"Deposited ${amount} into {self.name}'s account")
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            print(f"Withdrawal amount must be > 0 (got {amount})")
+        elif amount > self.balance:
+            print(
+                f"Insufficient funds for {self.name} "
+                f"(balance={self.balance}, asked={amount})"
+            )
+        else:
+            self.balance -= amount
+            print(f"Withdrew ${amount} from {self.name}'s account")
+
+    def get_balance(self):
+        return self.balance
+
+    def __str__(self):
+        return f"Account[{self.account_number} - {self.name}]: ${self.balance}"
+
+
+# Driver Code
+
+a1 = BankAccount("Alice", "001", 500)
+a2 = BankAccount("Bob", "002")
+
+# Alice operations
+a1.deposit(200)
+a1.withdraw(100)
+a1.withdraw(2000)   # Invalid (overdraft)
+
+# Bob operations
+a2.deposit(-50)     # Invalid (negative deposit)
+a2.deposit(300)
+a2.withdraw(-20)    # Invalid (negative withdrawal)
+
+# Print account details
+print("\nFinal Account Details:")
+print(a1)
+print(a2)
+
+# Balance check
+print("\nBalance of Alice:", a1.get_balance())
+print("Balance of Bob:", a2.get_balance())
